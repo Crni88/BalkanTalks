@@ -1,5 +1,5 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
   return (
@@ -7,6 +7,8 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <h1>LZN je najbolji tim na ovom Takmicenju ;)</h1>
+        <p>Bili i roja naj programeri</p>
+
         <p>
           Edit <code>src/App.js</code> Hello BalkanTalks2.
         </p>
