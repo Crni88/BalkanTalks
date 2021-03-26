@@ -1,27 +1,15 @@
-import logo from "./logo.svg";
 import "./App.css";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Home, Chat } from "./pages";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1>LZN je najbolji tim na ovom Takmicenju ;)</h1>
-        <p>Bili i roja naj programeri</p>
-
-        <p>
-          Edit <code>src/App.js</code> Hello BalkanTalks2.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <Route exact path="/" component={Home} />
+        <Route path="/chat" component={Chat} />
+      </Router>
+    </>
   );
 }
 
