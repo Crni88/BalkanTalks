@@ -2,6 +2,10 @@
 
 Ako je u testnoj fazi feature pokreci program sa `npm start`, ako je feature spreman za deploment onda pokreni sa `npm run build` da se pokrene na hostu
 
+# --TO DO--
+
+1. Moramo postavit da se
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
