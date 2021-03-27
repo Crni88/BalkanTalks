@@ -53,6 +53,7 @@ const chatRooms = [
 
 export function Home2() {
   const [nickname, setNickname] = useState("");
+  const [input, setInput] = useState("");
   const [user, setUser] = useState(() => auth.currentUser);
   const [roomNumber, setRoomNumber] = useState("01");
   const [openChat, setOpenChat] = useState(false);
@@ -97,6 +98,11 @@ export function Home2() {
     setOpenChat(!openChat);
     setRoomNumber(room);
   };
+
+  function handleClick() {
+    //history.push("/Chat",nickname);
+    setNickname(input);
+  } 
   return (
     <div className="wrapper">
       <div>
@@ -172,7 +178,27 @@ export function Home2() {
       {openChat && (
         <div className="chatDiv">
           {nickname === "" ? (
-            <div> Login</div>
+            <div style={{flexDirection:"column"}}>
+              <div style={{height:50,borderBottom:'1px solid white',display:"flex",alignItems:"center",color:"white"}}><span style={{fontSize:40,marginLeft:20,cursor:"pointer"}}
+              onClick={()=>{setOpenChat(false)}}
+              >{"<"}</span></div>
+               <h2  style={{color:"white",marginTop:"30%",fontSize:"54px"}}>Login</h2>
+              <input
+              type="text"
+              placeholder="Vaš nickname?" 
+              value={input}
+              onChange={event => setInput(event.target.value)}
+              style={{padding:10,margin:10,border:"2px solid #eee",boxShadow:"0 0 15px 4px rgba(0,0,0,0.06)",borderRadius:10,width:480,fontSize:"20px"}}
+             >
+              </input>
+              <button 
+              style={{padding:10,margin:10,border:"2px solid #eee",boxShadow:"0 0 15px 4px rgba(0,0,0,0.06)",borderRadius:10,width:500,fontSize:"20px"}}
+     onClick={handleClick}
+     disabled={!input}
+     >
+       Prijava
+     </button>
+            </div>
           ) : (
             <Chat
               nickname={nickname}
