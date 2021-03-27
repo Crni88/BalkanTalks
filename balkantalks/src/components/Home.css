@@ -111,4 +111,12 @@
 .language:hover{
     cursor: pointer;
 }
+.chatDiv{
+    width: 50%;
+    height:100vh;
+    position: absolute;
+     background-color: #272324;
+    top:0;
+    right:0
+}
 

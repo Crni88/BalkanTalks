@@ -1,24 +1,24 @@
-import firebase from 'firebase/app'
-import React, { useEffect, useState,useRef } from "react";
-import { useFirestoreQuery } from '../hooks';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import firebase from "firebase/app";
+import React, { useEffect, useState, useRef } from "react";
+import { useFirestoreQuery } from "../hooks";
+import "./Chat.css";
 
-export function Chat({ user = null,nickname,...props}) {
-  console.log(props.history.location.state);
-  const nicknameUsera = props.history.location.state;
+export function Chat({ user = null, nickname, ...props }) {
+  console.log(props);
+  const nicknameUsera = props.nickname;
   console.log("Nickname usera", nicknameUsera);
 
   const db = firebase.firestore();
-  const messagesRef = db.collection('poruke');
+  const messagesRef = db.collection(props.room);
   const messages = useFirestoreQuery(
-    messagesRef.orderBy('createdAt', 'asc').limit(100)
+    messagesRef.orderBy("createdAt", "asc").limit(100)
   );
 
-  const [newMessage, setNewMessage] = useState('');
+  const [newMessage, setNewMessage] = useState("");
 
   const inputRef = useRef();
   // const bottomListRef = useRef();
- //const { uid, displayName, photoURL } = user;
+  //const { uid, displayName, photoURL } = user;
 
   useEffect(() => {
     if (inputRef.current) {
@@ -26,11 +26,11 @@ export function Chat({ user = null,nickname,...props}) {
     }
   }, [inputRef]);
 
-  const handleOnChange = e => {
+  const handleOnChange = (e) => {
     setNewMessage(e.target.value);
   };
 
-  const handleOnSubmit = e => {
+  const handleOnSubmit = (e) => {
     e.preventDefault();
 
     const trimmedMessage = newMessage.trim();
@@ -39,45 +39,40 @@ export function Chat({ user = null,nickname,...props}) {
       messagesRef.add({
         text: trimmedMessage,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        nickname:nicknameUsera,
+        nickname: nicknameUsera,
         //uid,
         //displayName,
-       // photoURL,
+        // photoURL,
       });
 
       // Clear input field
-      setNewMessage('');
+      setNewMessage("");
       // Scroll down to the bottom of the list
       //bottomListRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Chat komponenta</h1>
-      </header>
+    <div className="ChatWrapper">
+      <div onClick={props.closeChat}> back</div>
       <ul>
-         {messages.map(message =>(
-           <li key={message.id}>{message.nickname}{message.text}</li>
-         ))}
+        {messages.map((message) => (
+          <li key={message.id}>
+            {message.nickname}
+            {message.text}
+          </li>
+        ))}
       </ul>
       <input
-            ref={inputRef}
-            type="text"
-            value={newMessage}
-            onChange={handleOnChange}
-            placeholder="Sta zelite reci?"
-          />
-      <button
-            type="submit"
-            disabled={!newMessage}
-            onClick={handleOnSubmit}
-          >
-            Send
-          </button>
+        ref={inputRef}
+        type="text"
+        value={newMessage}
+        onChange={handleOnChange}
+        placeholder="Sta zelite reci?"
+      />
+      <button type="submit" disabled={!newMessage} onClick={handleOnSubmit}>
+        Send
+      </button>
     </div>
   );
 }
-
-//export default Chat;

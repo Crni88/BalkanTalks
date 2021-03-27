@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef,inputRef,React } from "react";
+import { useEffect, useState, useRef, inputRef, React } from "react";
 import "./Home.css";
 import ciko from "../images/ciko-02.png";
 import room1 from "../images/1-02.png";
@@ -8,13 +8,14 @@ import room4 from "../images/4-02.png";
 import chatIcon from "../images/logo-02.png";
 import languageIcon from "../images/bosanskijezik-02.png";
 import { ChatRoom } from "./ChatRooms";
+import { Chat } from "./Chat";
+import chatIcon2 from "../images/logo-03.png";
 
-//FIREBASE 
+//FIREBASE
 
-import firebase from 'firebase/app'
-import 'firebase/auth';
-import 'firebase/firestore';
-
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
 
 firebase.initializeApp({
   apiKey: "AIzaSyDmwBQbqEMU3UjGqS8tMrCmPISUSqMuv0c",
@@ -23,10 +24,9 @@ firebase.initializeApp({
   storageBucket: "balkantalks-48617.appspot.com",
   messagingSenderId: "1069168869230",
   appId: "1:1069168869230:web:176e03a08cd5820b2ccb7f",
-  measurementId: "G-ZW1BRD6VMH"
-}); 
+  measurementId: "G-ZW1BRD6VMH",
+});
 const auth = firebase.auth();
- 
 
 const chatRooms = [
   {
@@ -52,21 +52,22 @@ const chatRooms = [
 ];
 
 export function Home2() {
-
-  const [nickname, setNickname] = useState('');
+  const [nickname, setNickname] = useState("");
+  const [user, setUser] = useState(() => auth.currentUser);
+  const [roomNumber, setRoomNumber] = useState("01");
+  const [openChat, setOpenChat] = useState(false);
 
   /* ---AKO HOCEMO DA SE USER NE REGISTRIRA*/
-   const [user,setUser] = useState(()=>auth.currentUser);
-   useEffect(()=>{
-    const unsubscribe= auth.onAuthStateChanged(user => {
-      if(user){
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
         setUser(user);
-      }else{
-          setUser(null);
+      } else {
+        setUser(null);
       }
     });
     return unsubscribe;
-  },[])
+  }, []);
 
   const signInWithGoogle = async () => {
     // Retrieve Google provider object
@@ -79,7 +80,7 @@ export function Home2() {
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
 
   /* const signOut = async () => {
     try {
@@ -88,60 +89,99 @@ export function Home2() {
       console.log(error.message);
     }
   };  */
-const dodanNickName = ()=>{
-  console.log(nickname);
-}
+  const dodanNickName = () => {
+    console.log(nickname);
+  };
 
+  const handleRoomClick = (room) => {
+    setOpenChat(!openChat);
+    setRoomNumber(room);
+  };
   return (
     <div className="wrapper">
-      <header className="header">
-        <p>Početna</p>
-        <p>O nama</p>
-        <p>Prijava</p>
-      </header>
-      <img className="ciko" src={ciko} alt="ciko" />
-      <img className="chatIcon" src={chatIcon} alt="icon" />
+      <div>
+        <header className="header">
+          <p>Početna</p>
+          <p>O nama</p>
+          <p>Prijava</p>
+        </header>
+        <img className="ciko" src={ciko} alt="ciko" />
 
-      <div className="centerdiv">
-        <h2>Lažne vijesti</h2>
-        <p style={{ textShadow: "0.5px 0.5px white" }}>
-          Aktuelna dešavanja nas okružuju ali ne smiju okupirati naš um.
-          Podijelite anonimno Vaša mišljenja, stavove i novosti na osnovu
-          odabrane teme sa ostalim ljudima u opuštenom okruženju.
-        </p>
-       {/*  <input
+        <img
+          className="chatIcon"
+          src={openChat ? chatIcon2 : chatIcon}
+          alt="icon"
+        />
+
+        <div className="centerdiv">
+          {/* {openChat ? (
+            <h2 style={{ color: "white" }}>Lažne vijesti</h2>
+          ) : (
+              )} */}
+          <h2>Lažne vijesti</h2>
+          {openChat ? (
+            <h3>SOBA {roomNumber}</h3>
+          ) : (
+            <>
+              <p style={{ textShadow: "0.5px 0.5px white" }}>
+                Aktuelna dešavanja nas okružuju ali ne smiju okupirati naš um.
+                Podijelite anonimno Vaša mišljenja, stavove i novosti na osnovu
+                odabrane teme sa ostalim ljudima u opuštenom okruženju.
+              </p>
+              {/*  <input
         type="text"
         placeholder="Vaš nickname?" 
         value={nickname}
         onChange={event => setNickname(event.target.value)}
         >
         </input> */}
-        <button
-        disabled={!nickname}
-        onClick={dodanNickName}
-        > Razgovaraj</button>
+              <button disabled={!nickname} onClick={dodanNickName}>
+                Razgovaraj
+              </button>
 
-        <button style={{ backgroundColor: "#272324", color: "white" }}
-         onClick={signInWithGoogle}
-        >
-          Registracija
-        </button>
+              <button
+                style={{ backgroundColor: "#272324", color: "white" }}
+                onClick={signInWithGoogle}
+              >
+                Registracija
+              </button>
+            </>
+          )}
+        </div>
+        <div className="sidebar">
+          {chatRooms.map((room, index) => (
+            <ChatRoom
+              onClick={() => handleRoomClick(room.number)}
+              key={index}
+              room={room}
+            />
+          ))}
+        </div>
+        <div className="language">
+          <img
+            src={languageIcon}
+            alt="language"
+            width={30}
+            height={30}
+            style={{ marginRight: 10 }}
+          />
+          <p> Bosanski ˅</p>
+        </div>
       </div>
-      <div className="sidebar">
-        {chatRooms.map((room, index) => (
-          <ChatRoom key={index} room={room} />
-        ))}
-      </div>
-      <div className="language">
-        <img
-          src={languageIcon}
-          alt="language"
-          width={30}
-          height={30}
-          style={{ marginRight: 10 }}
-        />
-        <p> Bosanski ˅</p>
-      </div>
+
+      {openChat && (
+        <div className="chatDiv">
+          {nickname === "" ? (
+            <div> Login</div>
+          ) : (
+            <Chat
+              nickname={nickname}
+              closeChat={handleRoomClick}
+              room={roomNumber}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }
