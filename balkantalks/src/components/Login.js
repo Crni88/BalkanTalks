@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef,inputRef } from 'react';
 import { Chat } from "./Chat";
 import firebase from 'firebase/app'
 import 'firebase/auth';
 import 'firebase/firestore';
+import { useHistory } from "react-router-dom";
 
 firebase.initializeApp({
   apiKey: "AIzaSyDmwBQbqEMU3UjGqS8tMrCmPISUSqMuv0c",
@@ -16,9 +17,11 @@ firebase.initializeApp({
 const auth = firebase.auth();
 
 export function Home() {
-  const [user,setUser] = useState(()=>auth.currentUser);
+  const [nickname, setNickname] = useState('');
 
-  useEffect(()=>{
+  /* ---AKO HOCEMO DA SE USER NE REGISTRIRA
+  const [user,setUser] = useState(()=>auth.currentUser);
+   useEffect(()=>{
     const unsubscribe= auth.onAuthStateChanged(user => {
       if(user){
         setUser(user);
@@ -49,14 +52,19 @@ export function Home() {
     } catch (error) {
       console.log(error.message);
     }
-  };
-
-
+  }; */
+  
+  
+const history = useHistory();
+   function handleClick() {
+    history.push("/Chat",nickname);
+  } 
   return (
     <div className="App">
       <header className="App-header">
-        
-        {user?(
+   {/*     --- AKO ZELIMO REGISTRACIJU OVO ODKOMENTARISI
+   
+   {user?(
           <>
           <button onClick={signOut}> odjava</button>
           <Chat></Chat>
@@ -68,8 +76,29 @@ export function Home() {
           
 >Prijavite se sa svojim Google racunom</button>
           )}
-        
+         */}
+
+         {/* ---AKO NE ZELIMO REGISTRACIJU */ }
+         <input
+            //ref={inputRef}
+            //value={newMessage}
+            //onChange={handleOnChange}
+            type="text"
+            placeholder="Vaš nickname?" 
+            value={nickname}
+            onChange={event => setNickname(event.target.value)} />
+     <button 
+     onClick={handleClick}
+     disabled={!nickname}
+     >
+       Prijava
+     </button>
+          
       </header>
     </div>
   );
+}
+
+export default function nickname() {
+  return <Chat nickname={nickname} />;
 }
