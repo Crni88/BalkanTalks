@@ -3,6 +3,7 @@
     background: url('../images/background-02.png');
     background-size: cover;
     height: 100vh;
+    min-width: 1000px
 }
 .ciko{
      display: block;
