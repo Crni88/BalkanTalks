@@ -2,7 +2,6 @@ import React from "react";
 import "./Rooms.css";
 
 export function ChatRoom(props) {
-  console.log(props);
   return (
     <div className="room" {...props}>
       <div className="chattext">

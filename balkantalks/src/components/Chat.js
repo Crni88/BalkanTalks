@@ -104,6 +104,11 @@ export function Chat(props) {
             className="input"
             value={newMessage}
             onChange={handleOnChange}
+            onKeyPress={(event) => {
+              if (event.key === "Enter") {
+                handleOnSubmit(event);
+              }
+            }}
             placeholder="Sta zelite reci?"
           />
           <img src={smiley} alt="smajli" width={20} height={20} />

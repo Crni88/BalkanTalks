@@ -92,9 +92,6 @@ export function Home2() {
       console.log(error.message);
     }
   };  */
-  const dodanNickName = () => {
-    console.log(nickname);
-  };
 
   const closeChat = () => {
     setOpenChat(false);
@@ -137,14 +134,12 @@ export function Home2() {
                 Podijelite anonimno Vaša mišljenja, stavove i novosti na osnovu
                 odabrane teme sa ostalim ljudima u opuštenom okruženju.
               </p>
-              {/*  <input
-        type="text"
-        placeholder="Vaš nickname?" 
-        value={nickname}
-        onChange={event => setNickname(event.target.value)}
-        >
-        </input> */}
-              <button disabled={!nickname} onClick={() => setOpenChat(true)}>
+
+              <button
+                onClick={() =>
+                  handleRoomClick({ number: "01", tema: "Lažne vijesti" })
+                }
+              >
                 Razgovaraj
               </button>
 
