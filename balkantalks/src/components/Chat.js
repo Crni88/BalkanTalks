@@ -2,8 +2,11 @@ import firebase from 'firebase/app'
 import React, { useEffect, useState,useRef } from "react";
 import { useFirestoreQuery } from '../hooks';
 
+export function Chat({ user = null,nickname,...props}) {
+  console.log(props.history.location.state);
+  const nicknameUsera = props.history.location.state;
+  console.log("Nickname usera", nicknameUsera);
 
-export function Chat({ user = null}) {
   const db = firebase.firestore();
   const messagesRef = db.collection('poruke');
   const messages = useFirestoreQuery(
@@ -13,9 +16,8 @@ export function Chat({ user = null}) {
   const [newMessage, setNewMessage] = useState('');
 
   const inputRef = useRef();
-  const bottomListRef = useRef();
-
-  //const { uid, displayName, photoURL } = user;
+ // const bottomListRef = useRef();
+ //const { uid, displayName, photoURL } = user;
 
   useEffect(() => {
     if (inputRef.current) {
@@ -28,7 +30,6 @@ export function Chat({ user = null}) {
   };
 
   const handleOnSubmit = e => {
-    console.log("Salji");
     e.preventDefault();
 
     const trimmedMessage = newMessage.trim();
@@ -37,10 +38,12 @@ export function Chat({ user = null}) {
       messagesRef.add({
         text: trimmedMessage,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        nickname:nicknameUsera,
         //uid,
         //displayName,
        // photoURL,
       });
+
       // Clear input field
       setNewMessage('');
       // Scroll down to the bottom of the list
@@ -55,7 +58,7 @@ export function Chat({ user = null}) {
       </header>
       <ul>
          {messages.map(message =>(
-           <li key={message.id}>{message.text}</li>
+           <li key={message.id}>{message.nickname}{message.text}</li>
          ))}
       </ul>
       <input
