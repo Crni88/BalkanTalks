@@ -2,6 +2,99 @@
     width: 100%;
     height: 100vh;
    
-        position: absolute;
+        position: relative;
 
 }
+.chatHeader{
+    height:60px;
+    border-bottom: 1px solid white;
+    color: white;
+    text-align: start;
+    display: flex;
+        align-items: center;
+
+}
+.chatHeader span:hover{
+    cursor: pointer;
+}
+.chatFooter{
+    height: 80px;
+    border-top: 1px solid white;
+       justify-content: center;
+    display: flex;
+    bottom:0;
+    width:auto
+}
+.input{
+    outline: none;
+    padding-left: 11px;
+        width: inherit;
+        border: none;
+
+}
+.divInput{
+       width: 80%;
+    padding: 9px;
+    margin-top: 15px;
+    border-radius: 20px;
+height: 25px;
+    display: flex;
+    justify-content: space-evenly;
+    background-color: white;
+
+}
+ .divInput button{
+     border:none;
+     outline: none;
+     cursor: pointer;
+         background-color: inherit;
+
+ }
+ .message{
+         height: calc(100% - 160px);
+             overflow: auto;
+
+
+ }
+ .guestMessage {
+     font-size: 10px;
+     color: white;
+    width: 43%;
+    margin-left: 7%;
+    text-align: start;
+
+ }
+ 
+ .textMessage{
+    font-size: 15px;
+    color: #272324;
+  
+    height: auto;
+    width: fit-content;
+    background-color: white;
+    padding: 3px 8px 3px 8px;
+    overflow-wrap: anywhere;
+    text-align: start;
+    max-width: 100%;
+    border-radius: 20px 20px 20px 0px;
+
+ }
+ .myMessage{
+     color:white;
+     height:auto;
+    overflow-wrap: anywhere;
+    display: flex;
+    justify-content: flex-end;
+        margin: 10px 6% 12px 0;
+
+
+ }
+ .myMessageText{
+     width: 43%;
+        background-color: #3935E5;
+    padding: 3px 8px 3px 8px;
+    border-radius: 20px 20px 0px 20px;
+        text-align: end;
+
+
+ }

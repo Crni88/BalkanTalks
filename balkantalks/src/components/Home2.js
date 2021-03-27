@@ -41,7 +41,7 @@ const chatRooms = [
   },
   {
     img: room3,
-    tema: "Kad sve ovo prodje",
+    tema: "Kad sve ovo prođe",
     number: "03",
   },
   {
@@ -56,6 +56,8 @@ export function Home2() {
   const [input, setInput] = useState("");
   const [user, setUser] = useState(() => auth.currentUser);
   const [roomNumber, setRoomNumber] = useState("01");
+  const [temaDana, setTemaDana] = useState("Lažne vijesti");
+
   const [openChat, setOpenChat] = useState(false);
 
   /* ---AKO HOCEMO DA SE USER NE REGISTRIRA*/
@@ -94,15 +96,20 @@ export function Home2() {
     console.log(nickname);
   };
 
+  const closeChat = () => {
+    setOpenChat(false);
+  };
+
   const handleRoomClick = (room) => {
-    setOpenChat(!openChat);
-    setRoomNumber(room);
+    setOpenChat(true);
+    setRoomNumber(room.number);
+    setTemaDana(room.tema);
   };
 
   function handleClick() {
     //history.push("/Chat",nickname);
     setNickname(input);
-  } 
+  }
   return (
     <div className="wrapper">
       <div>
@@ -120,11 +127,7 @@ export function Home2() {
         />
 
         <div className="centerdiv">
-          {/* {openChat ? (
-            <h2 style={{ color: "white" }}>Lažne vijesti</h2>
-          ) : (
-              )} */}
-          <h2>Lažne vijesti</h2>
+          <h2>{temaDana}</h2>
           {openChat ? (
             <h3>SOBA {roomNumber}</h3>
           ) : (
@@ -141,7 +144,7 @@ export function Home2() {
         onChange={event => setNickname(event.target.value)}
         >
         </input> */}
-              <button disabled={!nickname} onClick={dodanNickName}>
+              <button disabled={!nickname} onClick={() => setOpenChat(true)}>
                 Razgovaraj
               </button>
 
@@ -157,7 +160,7 @@ export function Home2() {
         <div className="sidebar">
           {chatRooms.map((room, index) => (
             <ChatRoom
-              onClick={() => handleRoomClick(room.number)}
+              onClick={() => handleRoomClick(room)}
               key={index}
               room={room}
             />
@@ -184,27 +187,38 @@ export function Home2() {
               >{"ᐸ"}</span></div>
                <h2  style={{color:"white",marginTop:"30%",fontSize:"54px"}}>Login</h2>
               <input
-              type="text"
-              placeholder="Vaš nickname?" 
-              value={input}
-              onChange={event => setInput(event.target.value)}
-              style={{padding:10,margin:10,border:"2px solid #eee",boxShadow:"0 0 15px 4px rgba(0,0,0,0.06)",borderRadius:10,width:480,fontSize:"20px"}}
-             >
-              </input>
-              <button 
-              style={{padding:10,margin:10,border:"2px solid #eee",boxShadow:"0 0 15px 4px rgba(0,0,0,0.06)",borderRadius:10,width:500,fontSize:"20px"}}
-     onClick={handleClick}
-     disabled={!input}
-     >
-       Prijava
-     </button>
+                type="text"
+                placeholder="Vaš nickname?"
+                value={input}
+                onChange={(event) => setInput(event.target.value)}
+                style={{
+                  padding: 10,
+                  margin: 10,
+                  border: "2px solid #eee",
+                  boxShadow: "0 0 15px 4px rgba(0,0,0,0.06)",
+                  borderRadius: 10,
+                  width: 480,
+                  fontSize: "20px",
+                }}
+              ></input>
+              <button
+                style={{
+                  padding: 10,
+                  margin: 10,
+                  border: "2px solid #eee",
+                  boxShadow: "0 0 15px 4px rgba(0,0,0,0.06)",
+                  borderRadius: 10,
+                  width: 500,
+                  fontSize: "20px",
+                }}
+                onClick={handleClick}
+                disabled={!input}
+              >
+                Prijava
+              </button>
             </div>
           ) : (
-            <Chat
-              nickname={nickname}
-              closeChat={handleRoomClick}
-              room={roomNumber}
-            />
+            <Chat nickname={nickname} closeChat={closeChat} room={roomNumber} />
           )}
         </div>
       )}

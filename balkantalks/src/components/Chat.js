@@ -2,17 +2,17 @@ import firebase from "firebase/app";
 import React, { useEffect, useState, useRef } from "react";
 import { useFirestoreQuery } from "../hooks";
 import "./Chat.css";
+import smiley from "../images/smiley-03.png";
 
-export function Chat({ user = null, nickname, ...props }) {
-  console.log(props);
-  const nicknameUsera = props.nickname;
-  console.log("Nickname usera", nicknameUsera);
+export function Chat(props) {
+  const { nickname } = props;
 
   const db = firebase.firestore();
   const messagesRef = db.collection(props.room);
   const messages = useFirestoreQuery(
     messagesRef.orderBy("createdAt", "asc").limit(100)
   );
+  console.log(messages);
 
   const [newMessage, setNewMessage] = useState("");
 
@@ -39,7 +39,7 @@ export function Chat({ user = null, nickname, ...props }) {
       messagesRef.add({
         text: trimmedMessage,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        nickname: nicknameUsera,
+        nickname: nickname,
         //uid,
         //displayName,
         // photoURL,
@@ -54,25 +54,64 @@ export function Chat({ user = null, nickname, ...props }) {
 
   return (
     <div className="ChatWrapper">
-      <div onClick={props.closeChat}> back</div>
-      <ul>
+      <div className="chatHeader">
+        <span
+          style={{
+            fontSize: 35,
+            marginLeft: 20,
+            marginRight: 30,
+            marginBottom: 3,
+          }}
+          onClick={props.closeChat}
+        >
+          {"<"}
+        </span>
+        <div
+          style={{
+            width: 10,
+            borderRadius: "50%",
+            height: 10,
+            backgroundColor: "white",
+            marginRight: 10,
+            marginTop: 2,
+          }}
+        ></div>
+        <p>Live Chat</p>
+      </div>
+      <div className="message">
         {messages.map((message) => (
-          <li key={message.id}>
-            {message.nickname}
-            {message.text}
-          </li>
+          <>
+            {message.nickname === nickname ? (
+              <div key={message.id} className="myMessage">
+                <div className="myMessageText">{message.text}</div>
+              </div>
+            ) : (
+              <div className="guestMessage" key={message.id}>
+                <p style={{ marginBottom: 3, marginLeft: 5 }}>
+                  {message.nickname}
+                </p>
+                <div className="textMessage">{message.text}</div>
+              </div>
+            )}
+          </>
         ))}
-      </ul>
-      <input
-        ref={inputRef}
-        type="text"
-        value={newMessage}
-        onChange={handleOnChange}
-        placeholder="Sta zelite reci?"
-      />
-      <button type="submit" disabled={!newMessage} onClick={handleOnSubmit}>
-        Send
-      </button>
+      </div>
+      <div className="chatFooter">
+        <div className="divInput">
+          <input
+            ref={inputRef}
+            type="text"
+            className="input"
+            value={newMessage}
+            onChange={handleOnChange}
+            placeholder="Sta zelite reci?"
+          />
+          <img src={smiley} alt="smajli" width={20} height={20} />
+          <button type="submit" disabled={!newMessage} onClick={handleOnSubmit}>
+            Send
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
