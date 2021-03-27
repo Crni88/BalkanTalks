@@ -3,9 +3,22 @@
     height:auto;
     display: flex;
     color: white;
+    justify-content: flex-end;
+        margin-bottom: 20px;
+
+    
 }
 .roomImage{
-    width: 200px;
-    height: 200px;
-    float: right;
+      width: auto;
+    height: 130px;
+}
+.roomImage:hover{
+    cursor: pointer;
+}
+.chattext * {
+    margin:5px;
+    text-align: end;
+}
+.chattext{
+    padding-top: 30px;
 }
