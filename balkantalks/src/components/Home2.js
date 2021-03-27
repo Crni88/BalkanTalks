@@ -198,6 +198,7 @@ export function Home2() {
                   boxShadow: "0 0 15px 4px rgba(0,0,0,0.06)",
                   borderRadius: 10,
                   width: 480,
+                  outline: "none",
                   fontSize: "20px",
                 }}
               ></input>
@@ -210,6 +211,7 @@ export function Home2() {
                   borderRadius: 10,
                   width: 500,
                   fontSize: "20px",
+                  cursor: "pointer",
                 }}
                 onClick={handleClick}
                 disabled={!input}
