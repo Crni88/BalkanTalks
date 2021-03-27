@@ -1,0 +1,11 @@
+.room{
+    width: 100%;
+    height:auto;
+    display: flex;
+    color: white;
+}
+.roomImage{
+    width: 200px;
+    height: 200px;
+    float: right;
+}
