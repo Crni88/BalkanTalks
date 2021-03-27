@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import React, { useEffect, useState,useRef } from "react";
 import { useFirestoreQuery } from '../hooks';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 export function Chat({ user = null,nickname,...props}) {
   console.log(props.history.location.state);
@@ -16,7 +17,7 @@ export function Chat({ user = null,nickname,...props}) {
   const [newMessage, setNewMessage] = useState('');
 
   const inputRef = useRef();
- // const bottomListRef = useRef();
+  // const bottomListRef = useRef();
  //const { uid, displayName, photoURL } = user;
 
   useEffect(() => {
