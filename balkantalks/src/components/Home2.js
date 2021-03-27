@@ -176,30 +176,11 @@ export function Home2() {
       {openChat && (
         <div className="chatDiv">
           {nickname === "" ? (
-            <div style={{ flexDirection: "column" }}>
-              <div
-                style={{
-                  height: 50,
-                  borderBottom: "1px solid white",
-                  display: "flex",
-                  alignItems: "center",
-                  color: "white",
-                }}
-              >
-                <span
-                  style={{ fontSize: 40, marginLeft: 20, cursor: "pointer" }}
-                  onClick={() => {
-                    setOpenChat(false);
-                  }}
-                >
-                  {"<"}
-                </span>
-              </div>
-              <h2
-                style={{ color: "white", marginTop: "30%", fontSize: "54px" }}
-              >
-                Login
-              </h2>
+            <div style={{flexDirection:"column"}}>
+              <div style={{height:50,borderBottom:'1px solid white',display:"flex",alignItems:"center",color:"white"}}><span style={{fontSize:30,marginLeft:20,cursor:"pointer"}}
+              onClick={()=>{setOpenChat(false)}}
+              >{"ᐸ"}</span></div>
+               <h2  style={{color:"white",marginTop:"30%",fontSize:"54px"}}>Login</h2>
               <input
                 type="text"
                 placeholder="Vaš nickname?"
